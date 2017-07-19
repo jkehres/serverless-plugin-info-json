@@ -1,0 +1,25 @@
+{
+  "name": "serverless-plugin-info-json",
+  "version": "1.0.0",
+  "description": "A Serverless plugin that adds JSON and file output options to the 'info' command",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jkehres/serverless-plugin-info-json.git"
+  },
+  "keywords": [
+    "serverless",
+    "serverless plugin"
+  ],
+  "author": "Jeff Kehres <jeff.kehres@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.2.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}
