@@ -40,7 +40,16 @@ class InfoJson {
 		}
 		if (this.options.json) {
 			const infoPlugin = this.getInfoPlugin();
+
+			// <1.13.0
 			infoPlugin.display = this.displayJson.bind(this);
+
+			// >=1.13.0
+			infoPlugin.displayServiceInfo = this.displayJson.bind(this);
+			infoPlugin.displayApiKeys = () => {};
+			infoPlugin.displayEndpoints = () => {};
+			infoPlugin.displayFunctions = () => {};
+			infoPlugin.displayStackOutputs = () => {};
 		}
 	}
 

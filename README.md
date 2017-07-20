@@ -2,6 +2,8 @@
 
 A [Serverless](https://serverless.com/) plugin that adds JSON and file output options to the [`info`](https://serverless.com/framework/docs/providers/aws/cli-reference/info/) command.
 
+NOTE: Only supports AWS provider.
+
 ## Installation
 
 First, install the plugin via npm:
