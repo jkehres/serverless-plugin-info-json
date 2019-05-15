@@ -37,6 +37,9 @@ class InfoJson {
 		if (this.options.file) {
 			const s = fs.createWriteStream(this.options.file);
 			process.stdout.write = process.stderr.write = s.write.bind(s);
+			process.on('exit', () => {
+				s.end();
+			});
 		}
 		if (this.options.json) {
 			const infoPlugin = this.getInfoPlugin();
@@ -50,6 +53,7 @@ class InfoJson {
 			infoPlugin.displayEndpoints = () => {};
 			infoPlugin.displayFunctions = () => {};
 			infoPlugin.displayStackOutputs = () => {};
+			infoPlugin.displayLayers = () => {};
 		}
 	}
 
@@ -62,7 +66,8 @@ class InfoJson {
 				region: gatheredData.info.region,
 				apiKeys: {},
 				endpoints: [],
-				functions: {}
+				functions: {},
+				layers: []
 			}
 		};
 
@@ -89,6 +94,12 @@ class InfoJson {
 						data.info.endpoints.push({method, path});
 					}
 				});
+			});
+		}
+
+		if (gatheredData.info.layers) {
+			gatheredData.info.layers.forEach((layer) => {
+				data.info.layers[layer.name] = layer.arn;
 			});
 		}
 

@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-info-json",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Serverless plugin that adds JSON and file output options to the 'info' command",
   "main": "index.js",
   "scripts": {
