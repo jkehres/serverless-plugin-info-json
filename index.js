@@ -66,34 +66,34 @@ class InfoJson {
 				service: gatheredData.info.service,
 				stage: gatheredData.info.stage,
 				region: gatheredData.info.region,
-				apiKeys: {},
+				apiKeys: gatheredData.info.apiKeys,
 				endpoints: [],
 				functions: {},
 				layers: []
 			}
 		};
-
-		gatheredData.info.apiKeys.forEach((key) => {
-			data.info.apiKeys[key.name] = key.value;
-		});
-
-		if (gatheredData.info.endpoint) {
+		if (gatheredData.info.endpoints) {
 			_.forEach(this.serverless.service.functions, (functionObject) => {
 				functionObject.events.forEach(event => {
-					if (event.http) {
+					if (event.httpApi) {
 						let method;
 						let path;
+						let baseUrl;
 
-						if (typeof event.http === 'object') {
-							method = event.http.method.toUpperCase();
-							path = event.http.path;
+						if (typeof event.httpApi === 'object') {
+							method = event.httpApi.method.toUpperCase();
+							path = event.httpApi.path;
 						} else {
-							method = event.http.split(' ')[0].toUpperCase();
-							path = event.http.split(' ')[1];
+							method = event.httpApi.split(' ')[0].toUpperCase();
+							path = event.httpApi.split(' ')[1];
 						}
-						path = path !== '/' ? `/${path.split('/').filter(p => p !== '').join('/')}` : '';
-
-						data.info.endpoints.push({method, path});
+						path = path !== '/' ? `/${path.split('/').filter(p => p !== '').join('/')}` : '/';
+						gatheredData.info.endpoints.forEach(endpoint => {
+							if (endpoint.includes("httpApi:")) {
+								baseUrl = endpoint.replace("httpApi: ", "")
+							}
+						})
+						data.info.endpoints.push({method, path, baseUrl});
 					}
 				});
 			});
@@ -115,7 +115,6 @@ class InfoJson {
 				data.outputs[output.OutputKey] = output.OutputValue;
 			});
 		}
-
 		this.serverless.cli.consoleLog(JSON.stringify(data, null, 2));
 	}
 }
