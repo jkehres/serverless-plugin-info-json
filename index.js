@@ -15,10 +15,12 @@ class InfoJson {
 					json: {
 						usage: 'Output as JSON',
 						shortcut: 'j',
+						type: 'boolean',
 					},
 					file: {
 						usage: 'Output to a file',
-						shortcut: 'f'
+						shortcut: 'f',
+						type: 'string',
 					}
 				}
 			}
