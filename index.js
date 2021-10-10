@@ -15,10 +15,12 @@ class InfoJson {
 					json: {
 						usage: 'Output as JSON',
 						shortcut: 'j',
+						type: 'boolean',
 					},
 					file: {
 						usage: 'Output to a file',
-						shortcut: 'f'
+						shortcut: 'f',
+						type: 'string',
 					}
 				}
 			}
@@ -64,8 +66,8 @@ class InfoJson {
 				service: gatheredData.info.service,
 				stage: gatheredData.info.stage,
 				region: gatheredData.info.region,
-				apiKeys: {},
-				endpoints: [],
+				apiKeys: gatheredData.info.apiKeys,
+				endpoints: gatheredData.info.endpoints,
 				functions: {},
 				layers: []
 			}
@@ -75,7 +77,8 @@ class InfoJson {
 			data.info.apiKeys[key.name] = key.value;
 		});
 
-		if (gatheredData.info.endpoint) {
+		if (gatheredData.info.endpoints) {
+			data.info.functionEndpoints = [];
 			_.forEach(this.serverless.service.functions, (functionObject) => {
 				functionObject.events.forEach(event => {
 					if (event.http) {
@@ -91,7 +94,7 @@ class InfoJson {
 						}
 						path = path !== '/' ? `/${path.split('/').filter(p => p !== '').join('/')}` : '';
 
-						data.info.endpoints.push({method, path});
+						data.info.functionEndpoints.push({method, path});
 					}
 				});
 			});
